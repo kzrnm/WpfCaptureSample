@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfCapture"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="" Height="450" Width="500">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Grid.Column" Value="1"/>
+                    </Style>
+                </Grid.Resources>
+                <Label Content="プロセス名(部分一致)"/>
+                <TextBox Text="{Binding ProcessName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Grid.Row="1" Content="ウインドウ名(部分一致)"/>
+                <TextBox Grid.Row="1" Text="{Binding WindowName, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <CheckBox IsChecked="{Binding UseOnlyTargetWindow}" Content="他のウインドウをキャプチャしない(Win32のみ)"/>
+                <Button Content="DrawingCapture" Command="{Binding DrawingCaptureCommand}" Margin="5,0"/>
+                <Button Content="Win32Capture" Command="{Binding Win32CaptureCommand}" Margin="5,0"/>
+            </StackPanel>
+            <TextBlock Text="{Binding CaptureTimeText}"/>
+        </StackPanel>
+        <Image  Grid.Row="1" Stretch="Uniform" Source="{Binding Image}"/>
     </Grid>
 </Window>
